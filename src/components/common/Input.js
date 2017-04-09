@@ -13,6 +13,8 @@ const Input = ({label, value, onChangeText, placeholder, secureTextEntry}) => {
         autoComplete={false}
         style={inputStyle}
         secureTextEntry={secureTextEntry}
+        autoCapitalize='none'
+        autoFocus={true}
       />
     </View>
   );

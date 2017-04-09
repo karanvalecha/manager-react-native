@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Card, CardSection, Input, Button } from './common';
 import { connect } from 'react-redux';
+import { Text } from 'react-native';
+import { Card, CardSection, Input, Button, Spinner } from './common';
 import * as actions from '../actions';
 
 class LoginForm extends Component {
@@ -18,6 +19,16 @@ class LoginForm extends Component {
 		this.props.loginUser({email, password})
 	}
 
+	renderButton() {
+		if (this.props.loading){
+			return <Spinner size="large" />
+		}
+		return(
+			<Button onPress={this.onButtonPress.bind(this)}>
+				Log In
+			</Button>
+		);
+	}
 	render() {
 		return(
 			<Card>
@@ -25,7 +36,6 @@ class LoginForm extends Component {
 					<Input label="Email" placeholder="user@gmail.com"
 						onChangeText={this.onEmailChange.bind(this)}
 						value={this.props.email}
-						autoSuggest={false}
 					/>
 				</CardSection>
 				
@@ -36,19 +46,28 @@ class LoginForm extends Component {
 					value={this.props.password}
 					/>
 				</CardSection>
-				
+
+				{/*Just for Error*/}
+				<Text style={styles.textStyle}>{this.props.error}</Text>
+
 				<CardSection>
-					<Button onPress={this.onButtonPress.bind(this)}>
-						Log In
-					</Button>
-				</CardSection>				
+					{this.renderButton()}
+				</CardSection>
 			</Card>
 		)
 	}
 }
 
 const mapStateToProps = state => {
-	return { email: state.auth.email, password: state.auth.password }
+	return { email, password, error, loading } = state.auth;
+}
+
+const styles = {
+	textStyle: {
+		color: 'red',
+		fontSize: 18,
+		alignSelf: 'center'
+	}
 }
 
 export default connect(mapStateToProps, actions)(LoginForm);

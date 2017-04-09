@@ -15,10 +15,29 @@ export const passwordChanged = (password) => {
 }
 
 export const loginUser = ({email, password}) => {
+	const config = {
+	  apiKey: 'AIzaSyBJLWgW-81mUk7FpKa0gPjAonerdp9F2PY',
+	  authDomain: 'manager-aa974.firebaseapp.com',
+	  databaseURL: 'https://manager-aa974.firebaseio.com',
+	  projectId: 'manager-aa974',
+	  storageBucket: 'manager-aa974.appspot.com',
+	  messagingSenderId: '317838077977'
+	};
+	try{
+		firebase.app()
+	}
+	catch(e) {
+		firebase.initializeApp(config)
+	}
+
 	return (dispatch) => {
 		firebase.auth().signInWithEmailAndPassword(email, password)
-			.then(user => {
-				dispatch({type: 'login_user_success', payload: user})
-			}).catch(error => console.log(error));
+			.then( user => loginUserSuccess(user, dispatch)).catch((error) => {
+				dispatch({type: 'login_user_failure', payload: error.message})
+			});
 	}
+}
+
+const loginUserSuccess = (user, dispatch) => {
+	dispatch({type: 'login_user_success', payload: user})
 }
