@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import { Actions } from 'react-native-router-flux'
 
 export const emailChanged = (text) => {
 	return({
@@ -31,13 +32,19 @@ export const loginUser = ({email, password}) => {
 	}
 
 	return (dispatch) => {
-		firebase.auth().signInWithEmailAndPassword(email, password)
-			.then( user => loginUserSuccess(user, dispatch)).catch((error) => {
-				dispatch({type: 'login_user_failure', payload: error.message})
-			});
+		dispatch({
+			type: 'login_user',
+			payload: null
+		})
+		loginUserSuccess(null, dispatch)
+		// firebase.auth().signInWithEmailAndPassword(email, password)
+		// 	.then( user => loginUserSuccess(user, dispatch)).catch((error) => {
+		// 		dispatch({type: 'login_user_failure', payload: error.message})
+		// 	});
 	}
 }
 
 const loginUserSuccess = (user, dispatch) => {
 	dispatch({type: 'login_user_success', payload: user})
+	Actions.main({type: 'reset'});
 }

@@ -6,10 +6,12 @@ export default (state = INITIAL_STATE, action) => {
 			return { ...state, email: action.payload };
 		case 'password_changed':
 			return { ...state, password: action.payload };
+		case 'login_user':
+			return { ...state, user: action.payload, loading: true }
 		case 'login_user_success':
 			return { ...state, user: action.payload, error: '', loading: true }
 		case 'login_user_failure':
-			return { ...state, ...INITIAL_STATE, password: '', error: action.payload}
+			return { ...state, password: '', error: action.payload, loading: false}
 		default:
 			return state;
 	}
