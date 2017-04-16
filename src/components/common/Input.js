@@ -4,7 +4,7 @@ import { TextInput, View, Text } from 'react-native';
 const Input = (args) => {
   const { inputStyle, labelStyle, containerStyle } = Styles;
   const {label, value, onChangeText, autoFocus,
-          placeholder, secureTextEntry} = args;
+          placeholder, secureTextEntry, keyboardType} = args;
   return (
     <View style={containerStyle}>
       <Text style={labelStyle}>{label}</Text>
@@ -17,6 +17,7 @@ const Input = (args) => {
         secureTextEntry={secureTextEntry}
         autoCapitalize='none'
         autoFocus={autoFocus}
+        keyboardType={keyboardType}
       />
     </View>
   );
